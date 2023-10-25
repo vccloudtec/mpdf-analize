@@ -17,7 +17,7 @@ under the [GNU GPL v2 licence](LICENSE.txt).
 Adicione o pacote MpdfAnalize para que funcione a modificação:
 
 ```
-composer require wendel-ulhoa/laravel-mpdf-analize
+composer require analize/laravel-mpdf-analize
 composer require analize/mpdf-analize
 ```
 
