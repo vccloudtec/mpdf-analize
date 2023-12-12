@@ -27099,12 +27099,12 @@ class MpdfAnalize extends Mpdf
 			));
 		}
 
-		if (strlen($html) > (int) $limit) {
-			throw new \Mpdf\MpdfException(sprintf(
-				'The HTML code size is larger than pcre.backtrack_limit %d. You should use WriteHTML() with smaller string lengths.',
-				$limit
-			));
-		}
+		// if (strlen($html) > (int) $limit) {
+		// 	throw new \Mpdf\MpdfException(sprintf(
+		// 		'The HTML code size is larger than pcre.backtrack_limit %d. You should use WriteHTML() with smaller string lengths.',
+		// 		$limit
+		// 	));
+		// }
 
 		preg_match_all("/(<annotation.*?>)/si", $html, $m);
 		if (count($m[1])) {
