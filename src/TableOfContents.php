@@ -482,8 +482,9 @@ class TableOfContents
 					/* Pega os estilos. */
 					$titleColor    = $this->mpdf->customizeIndexesTitles['indexes']['font_color'] ?? '#000000';
 					$titleFontSize = $this->mpdf->customizeIndexesTitles['indexes']['font_size'] ?? '18';
+					$fontFamily    = $this->mpdf->customizeIndexesTitles['indexes']['fontfamily'] ?? '';
 
-					$stylesIndexes = "color: $titleColor; font-size: $titleFontSize;";
+					$stylesIndexes = "color: $titleColor; font-size: $titleFontSize; font-family: $fontFamily;";
 					$this->mpdf->customizeIndexesTitles[$t['toc_id']]['used'] = true;
 				}
 
@@ -945,8 +946,9 @@ class TableOfContents
 			/* Pega os estilos. */
 			$titleColor    = $this->mpdf->customizeIndexesTitles[$tocId]['font_color'] ?? '#000000';
 			$titleFontSize = $this->mpdf->customizeIndexesTitles[$tocId]['font_size'] ?? '18';
+			$fontFamily    = $this->mpdf->customizeIndexesTitles[$tocId]['fontfamily'] ?? '';
 
-			$html .= "<br><br><span style='color: $titleColor; font-size: $titleFontSize; font-weight: bold;'>" . $this->mpdf->customizeIndexesTitles[$tocId]['title'] . "</span>";
+			$html .= "<br><br><span style='color: $titleColor; font-size: $titleFontSize; font-weight: bold; font-family: $fontFamily;'>" . $this->mpdf->customizeIndexesTitles[$tocId]['title'] . "</span>";
 			$this->mpdf->customizeIndexesTitles[$tocId]['used'] = true;
 		}
 	}
