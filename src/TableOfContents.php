@@ -484,7 +484,7 @@ class TableOfContents
 					$titleFontSize 	 = $this->mpdf->customizeIndexesTitles['indexes']['font_size'] ?? '18';
 					$titleFontfamily = str_replace('"', '&quot;', $this->mpdf->customizeIndexesTitles['indexes']['fontfamily'] ?? '');
 
-					$stylesIndexes = "color: $titleColor; font-size: $titleFontSize;";
+					$stylesIndexes = "color: $titleColor; font-size: $titleFontSize; font-family: $titleFontfamily;";
 					$this->mpdf->customizeIndexesTitles[$t['toc_id']]['used'] = true;
 				} 
 
