@@ -476,24 +476,30 @@ class TableOfContents
 				/* Caso tenha subtitulos adiciona. */
 				$this->setCustomizeIndexesTitles('index', $html);
 				$this->setCustomizeIndexesTitles($t['toc_id'], $html);
-				
+
 				/* Estilos dos índices. */ 
 				if (isset($this->mpdf->customizeIndexesTitles['indexes']) && !$this->mpdf->customizeIndexesTitles['indexes']['used']) {
 					/* Pega os estilos. */
-					$titleColor    = $this->mpdf->customizeIndexesTitles['indexes']['font_color'] ?? '#000000';
-					$titleFontSize = $this->mpdf->customizeIndexesTitles['indexes']['font_size'] ?? '18';
-					$fontFamily    = $this->mpdf->customizeIndexesTitles['indexes']['fontfamily'] ?? '';
+					$titleColor    	 = $this->mpdf->customizeIndexesTitles['indexes']['font_color'] ?? '#000000';
+					$titleFontSize 	 = $this->mpdf->customizeIndexesTitles['indexes']['font_size'] ?? '18';
+					$titleFontfamily = str_replace('"', '&quot;', $this->mpdf->customizeIndexesTitles['indexes']['fontfamily'] ?? '');
 
-					$stylesIndexes = "color: $titleColor; font-size: $titleFontSize; font-family: $fontFamily;";
+					$stylesIndexes = "color: $titleColor; font-size: $titleFontSize; font-family: $titleFontfamily;";
 					$this->mpdf->customizeIndexesTitles[$t['toc_id']]['used'] = true;
+				} 
+
+				// Seta os estilos dos subtitulos customizados.
+				if(!isset($this->mpdf->customizeIndexesTitles['indexes']) && isset($this->mpdf->customizeIndexesTitles['customTitlesSummary'])) {
+					$titleFontfamily  = str_replace('"', '&quot;', $this->mpdf->customizeIndexesTitles['customTitlesSummary']['fontfamily'] ?? '');
+					$stylesIndexes 	 .= "font-family: $titleFontfamily;";
 				}
 
 				if ($t['toc_id'] === '_mpdf_all' || $t['toc_id'] === $toc_id || $toc_id == 'customanalize') {
 					$html .= '<div class="mpdf_toc_level_' . $t['l'] . '" style="' . $stylesIndexes . '">';
 					if ($TOCuseLinking) {
-						$html .= '<a class="mpdf_toc_a" href="#__mpdfinternallink_' . $t['link'] . '" style="' . $stylesIndexes . '">';
+						$html .= '<a class="mpdf_toc_a" href="#__mpdfinternallink_' . $t['link'] . '" style="">';
 					}
-					$html .= '<span class="mpdf_toc_t_level_' . $t['l'] . '" style="' . $stylesIndexes . '">' . $t['t'] . '</span>';
+					$html .= '<span class="mpdf_toc_t_level_' . $t['l'] . '" style="'. $stylesIndexes .'">' . $t['t'] . ' </span>';
 					if ($TOCuseLinking) {
 						$html .= '</a>';
 					}
@@ -944,11 +950,11 @@ class TableOfContents
 		/* Caso tenha subtitulos adiciona. */
 		if (isset($this->mpdf->customizeIndexesTitles[$tocId]) && !$this->mpdf->customizeIndexesTitles[$tocId]['used']) {
 			/* Pega os estilos. */
-			$titleColor    = $this->mpdf->customizeIndexesTitles[$tocId]['font_color'] ?? '#000000';
-			$titleFontSize = $this->mpdf->customizeIndexesTitles[$tocId]['font_size'] ?? '18';
-			$fontFamily    = $this->mpdf->customizeIndexesTitles[$tocId]['fontfamily'] ?? '';
+			$titleColor      = $this->mpdf->customizeIndexesTitles[$tocId]['font_color'] ?? '#000000';
+			$titleFontSize 	 = $this->mpdf->customizeIndexesTitles[$tocId]['font_size'] ?? '18';
+			$titleFontfamily = str_replace('"', '&quot;', $this->mpdf->customizeIndexesTitles[$tocId]['fontfamily'] ?? '');
 
-			$html .= "<br><br><span style='color: $titleColor; font-size: $titleFontSize; font-weight: bold; font-family: $fontFamily;'>" . $this->mpdf->customizeIndexesTitles[$tocId]['title'] . "</span>";
+			$html .= "<br><br><span style='color: $titleColor; font-size: $titleFontSize; font-weight: bold; font-family: $titleFontfamily'>" . $this->mpdf->customizeIndexesTitles[$tocId]['title'] . "</span>";
 			$this->mpdf->customizeIndexesTitles[$tocId]['used'] = true;
 		}
 	}
