@@ -493,7 +493,7 @@ class TableOfContents
 					$titleFontfamily  = str_replace('"', '&quot;', $this->mpdf->customizeIndexesTitles['customTitlesSummary']['fontfamily'] ?? '');
 					$stylesIndexes 	 .= "font-family: $titleFontfamily;";
 				}
-
+ 
 				if ($t['toc_id'] === '_mpdf_all' || $t['toc_id'] === $toc_id || $toc_id == 'customanalize') {
 					$html .= '<div class="mpdf_toc_level_' . $t['l'] . '" style="' . $stylesIndexes . '">';
 					if ($TOCuseLinking) {
