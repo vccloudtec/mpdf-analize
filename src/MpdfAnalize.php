@@ -9093,16 +9093,17 @@ class MpdfAnalize extends Mpdf
 	// =============================================================
 	/* -- HTML-CSS -- */
 
-	function _getObjAttr($t)
-	{
-		$c = explode("\xbb\xa4\xac", $t, 2);
-		$c = explode(",", $c[1], 2);
-		foreach ($c as $v) {
-			$v = explode("=", $v, 2);
-			$sp[$v[0]] = $v[1];
-		}
-		return (unserialize($sp['objattr']));
-	}
+	// Comentada pois essa classe extende da class mpdf que já possui a correção do explode para o erro: ""unserialize(): Extra data starting at offset 694 of 697 bytes""
+	// function _getObjAttr($t) 
+	// {
+	// 	$c = explode("\xbb\xa4\xac", $t, 2);
+	// 	$c = explode(",", $c[1], 2);
+	// 	foreach ($c as $v) {
+	// 		$v = explode("=", $v, 2);
+	// 		$sp[$v[0]] = $v[1];
+	// 	}
+	// 	return (unserialize($sp['objattr']));
+	// }
 
 	function inlineObject($type, $x, $y, $objattr, $Lmargin, $widthUsed, $maxWidth, $lineHeight, $paint = false, $is_table = false)
 	{
