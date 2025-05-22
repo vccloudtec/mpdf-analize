@@ -1036,25 +1036,32 @@ class MpdfAnalize extends Mpdf
 	private $container;
 
 	/**
+	 * @var bool Define if border corners should be joined. Default value is true. This make de double border in table
+	 * cells render as a retangle. Disable this turn double border into parallel lines but create a gap between borders
+	 * with adjacent cells.
+	 */
+	private $joinBorderCorners;
+
+	/**
 	 * customizeIndexTitles customiza os títulos por tópico nos índices.
 	 * Exemplo de conteúdo : [
      *    'index' => ['title' => 'Índices', 'toc_id' => 'index', 'font_size' => $styles['font_size'], 'font_color' => $styles['font_color'], 'used' => false]
      * ]
-	 * 
+	 *
 	 * @var string
 	 */
 	public $customizeIndexesTitles = [];
 
 	/**
 	 * enabledIndexesDots habilita os pontos nos índices.
-	 *  
+	 *
 	 * @var bool
-	 */ 
+	 */
 	public $enabledIndexesDots = true;
 
 	/**
 	 * mergeWithBookMark merge with bookmark in _toc
-	 * 
+	 *
 	 * @var bool
 	 */
 	public $mergeWithBookMarkIn_toc = false;
@@ -1077,11 +1084,11 @@ class MpdfAnalize extends Mpdf
 			$mgb,
 			$mgh,
 			$mgf,
-			$orientation
+			$orientation,
+			$joinBorderCorners
 		) = $this->initConstructorParams($config);
 
 		$this->logger = new NullLogger();
-		// dd($config);
 		$originalConfig = $config;
 		$config = $this->initConfig($originalConfig);
 
@@ -1109,6 +1116,8 @@ class MpdfAnalize extends Mpdf
 		$this->time0 = microtime(true);
 
 		$this->writingToC = false;
+
+		$this->joinBorderCorners = $joinBorderCorners;
 
 		$this->layers = [];
 		$this->current_layer = 0;
@@ -1621,6 +1630,7 @@ class MpdfAnalize extends Mpdf
 			'margin_header' => 9,
 			'margin_footer' => 9,
 			'orientation' => 'P',
+			'joinBorderCorners' => true, // Default value from corners, conecting borders cells
 		];
 
 		foreach ($constructor as $key => $val) {
@@ -3235,7 +3245,9 @@ class MpdfAnalize extends Mpdf
 		$this->pageBackgrounds = [];
 
 		// Set line cap style to square
-		$this->SetLineCap(2);
+		if ($this->joinBorderCorners) {
+			$this->SetLineCap(2);
+		}
 		// Set line width
 		$this->LineWidth = $lw;
 		$this->writer->write(sprintf('%.3F w', $lw * Mpdf::SCALE));
@@ -9094,7 +9106,7 @@ class MpdfAnalize extends Mpdf
 	/* -- HTML-CSS -- */
 
 	// Comentada pois essa classe extende da class mpdf que já possui a correção do explode para o erro: ""unserialize(): Extra data starting at offset 694 of 697 bytes""
-	// function _getObjAttr($t) 
+	// function _getObjAttr($t)
 	// {
 	// 	$c = explode("\xbb\xa4\xac", $t, 2);
 	// 	$c = explode(",", $c[1], 2);
@@ -21317,7 +21329,9 @@ class MpdfAnalize extends Mpdf
 					// Reset Corners
 					$this->SetDash();
 					// BUTT style line cap
-					$this->SetLineCap(2);
+					if ($this->joinBorderCorners) {
+						$this->SetLineCap(2);
+					}
 				}
 			}
 
@@ -23982,10 +23996,10 @@ class MpdfAnalize extends Mpdf
 	}
 
 		/**
-	 * Faz a deleção de uma página específica. 
+	 * Faz a deleção de uma página específica.
 	 *
 	 * @param int $pageDelete = pagina a ser deletada.
-	 * 
+	 *
 	 * @return void
 	 */
 	public function deletePage($pageDelete, $mergeWithBookMarkIn_toc = false)
@@ -27583,24 +27597,24 @@ class MpdfAnalize extends Mpdf
 
 	/**
 	 * Seta as configurações dos títulos personalizados dos índices
-	 * 
+	 *
 	 * @param array $configs = Configurações dos títulos.
-	 * 
+	 *
 	 * @return void
 	 */
-	public function setCustomizeIndexesTitles(array $configs): void 
+	public function setCustomizeIndexesTitles(array $configs): void
 	{
 		$this->customizeIndexesTitles = $configs;
 	}
 
 	/**
 	 * Seta se vai utilizar dots nos indíces.
-	 * 
+	 *
 	 * @param bool $enabled = Habilitar os pontos.
-	 * 
+	 *
 	 * @return void
 	 */
-	public function setEnabledIndexesDots(bool $enabled): void 
+	public function setEnabledIndexesDots(bool $enabled): void
 	{
 		$this->enabledIndexesDots = $enabled;
 	}
