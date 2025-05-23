@@ -462,7 +462,7 @@ class TableOfContents
 			/* Realiza o merge e atualiza o attr de page pois no bookmark está correto. */
 			if($this->mpdf->mergeWithBookMarkIn_toc) {
 				/* Obtém o número definido que será a primeira página após o indice. Subtrai 1 pois o contador começa em 1, se eu somar o numero da primeira página após o indice com a propria página irá gerar um numero com 1 a mais */
-				$resetpagenum = ($this->m_TOC[$toc_id]['TOC_resetpagenum'] ?? 0) -1;
+				$resetpagenum = intval($this->m_TOC[$toc_id]['TOC_resetpagenum'] ?? 0) -1;
 				foreach ($this->mpdf->BMoutlines as $key => $value) {
 					/* Obtém a numeração da página do BookMarkMoutlines + o numero que será a primeira página. */
 					$this->_toc[$key]['p'] = $value['p'] + $resetpagenum;
